@@ -1,0 +1,46 @@
+public class PlanetStore
+{
+    public List<Planet> ListOfPurchasedPlanets = new List<Planet>();
+    public List<Planet> ListOfPlanets = new List<Planet>();
+
+    public PlanetStore(int level, int spots)
+    {
+        for (int i = 0; i < level; i++)
+        {
+            Level newLevel = new Level(spots);
+            levels.Add(newLevel);
+        }
+    }
+
+    public void AddPlanetInStore(Planet planet, Customer customer)
+    {
+        foreach (Level level in levels)
+        {
+            foreach (singleSpot spot in level.spot)
+            {
+                if (spot.planet == null)
+                {
+                    spot.planet = planet;
+                    return;
+                }
+            }
+        }
+        Console.WriteLine("Can't add more, store is full");
+    }
+
+    public void DisplayAvailablePlanetInStore()
+    {
+        foreach (Level level in levels)
+        {
+            foreach (singleSpot spot in level.spot)
+            {
+                if (spot.planet != null)
+                {
+                    Console.WriteLine($"The Planet Available:\n\t{spot.planet.GetDetails()}");
+                }
+            }
+        }
+    }
+
+    // Other methods remain unchanged...
+}
