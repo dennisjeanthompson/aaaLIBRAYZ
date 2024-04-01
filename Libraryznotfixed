@@ -1,0 +1,205 @@
+// Online C# Editor for free
+// Write, Edit and Run your C# code using C# Online Compiler
+
+using System;
+using System.Collections.Generic;
+namespace HelloWorld{
+//Make a PlanetStore where user can buy planet for know
+public class HelloWorld
+{
+    public static void Main(string[] args)
+    {
+        Console.WriteLine ("Try programiz.pro");
+        Customer per  = new Customer("Killer",123);
+         Customer per1  = new Customer("Ripper",124);
+         Customer per2  = new Customer("Holoman",125);
+        Jupiter planet = new Jupiter("Jupiter",999999,true,999,9000);
+        Jupiter planet1 = new Jupiter("Saturn",99988,true,90,908);
+        Jupiter planet2 = new Jupiter("Neptune",99977,true,99,908);
+        PlanetStore store = new PlanetStore(1,2);//level, spots
+         store.AddPlanetInStore(planet,per);
+                 store.AddPlanetInStore(planet1,per1);
+                         store.AddPlanetInStore(planet2,per2);
+        store.DisplayAvailablePlanetInStore();
+        Console.WriteLine(planet. GetTYPEofplanet());
+        
+        
+        
+        /*
+        string name,double price,bool isAvailable,int age,int size,TypeOfPlanet typeofplanet)
+        */
+    }
+}
+
+public enum TypeOfPlanet
+{
+    GasGiant,
+    IcePlanet,
+    OceanPlanet,
+    DwarfPlanet
+}
+
+public class Customer
+{
+    string Name{get;set;}
+    int Age{get;set;}
+    public Customer(string name,int age)
+    {
+        Name = name;
+        Age = age;
+    }
+    public void BuyPlanet(Planet planet)
+    {
+        planet.BuyPlanet();
+    }
+    public void ReturnPLanet(Planet planet)
+    {
+        planet.ReturnPLanet();
+    }
+    
+}
+
+
+
+public abstract class Planet
+{
+    string Name{get;set;}
+    double Price{get;set;}
+public    bool IsAvailable{get;set;}
+public int Age{get;set;}
+int Size{get;set;}
+public TypeOfPlanet typeofPlANET{get;set;}
+    public Planet(string name,double price,bool isAvailable,int age,int size,TypeOfPlanet typeofplanet)
+    {
+        Name = name;
+        Price = price;
+        IsAvailable = isAvailable;
+        Age = age;
+        Size = size;
+        typeofPlANET = typeofplanet;
+    }
+    public virtual string GetDetails()
+    {
+         return $"Name:{Name}\tPrice(dollars):{Price}\tAge(Billion):{Age}\tSize(kilometer):{Size}";
+    }
+    public TypeOfPlanet GetTYPEofplanet()
+    {
+        return typeofPlANET;
+    }
+    public void BuyPlanet()
+    {
+        IsAvailable  = false;
+    }
+    public void ReturnPLanet()
+    {
+        IsAvailable =true;
+    }
+    
+    
+}
+
+public class Jupiter:Planet
+{
+    public Jupiter(string name,double price,bool isAvailable,int age,int size
+   ):base(name,price,isAvailable,age,size,
+    TypeOfPlanet.GasGiant)
+    {
+        
+    }
+    public override string GetDetails()
+    {
+        return base.GetDetails();
+    }
+    
+    
+    
+}
+public class singleSpot
+{
+    Planet planet;
+    
+}
+public class Level
+{
+    List<singleSpot> spot;
+    public Level(int spots)
+    {
+        spot = new List<singleSpot>(spots);
+        for(int i= 0;i < spots ;i++)
+        {
+            spot.Add(new singleSpot());
+        }
+    }
+}
+
+
+
+public class PlanetStore
+{
+        public List<Planet> listofPurchasedPlanets =  new List<Planet>();
+  
+      public List<Planet> listofPlanets = new List<Planet>();
+   // public static int  Storez = 1;
+    List<Level> levels;
+    public PlanetStore(int level,int spots)
+    {
+        levels = new List<Level>(level);
+        public int idk = level * spots;
+        for(int i = 0;i<level;i++)
+        {
+            levels.Add(new Level(spots));
+            
+            if(listofPurchasedPlanets.Count <= idk)
+            {
+                AddPlanetInStore(Planet planet,Customer customer);
+            }
+            else
+            {
+                Console.WriteLine("Cant add its full");
+            }
+            
+        }
+        
+        
+    }
+    
+  
+  
+    
+    public void AddPlanetInStore(Planet planet,Customer customer)
+    {
+        listofPlanets.Add(planet);
+    }
+    public void DisplayAvailablePlanetInStore()
+    {
+        foreach(Planet planet in listofPlanets)
+        {
+            Console.WriteLine($"The Planets Available:\n\t{planet.GetDetails()}");
+        }
+    }
+    public void DiplaypurchasedPlanets()
+     {
+        foreach(Planet planet in listofPurchasedPlanets)
+        {
+            Console.WriteLine($"The Planets Available:\n\t{planet.GetDetails()}");
+        }
+    }
+    
+    public void BuyPlanet(Planet planet,Customer customer)
+    {
+        customer.BuyPlanet(planet);
+        listofPlanets.Remove(planet);
+        listofPurchasedPlanets.Add(planet);
+        
+    }
+    
+    public void ReturnPLanet(Planet planet,Customer customer)
+    {
+        customer.ReturnPLanet(planet);
+        listofPlanets.Add(planet);
+    listofPurchasedPlanets.Remove(planet);
+    }
+    
+}
+
+}
