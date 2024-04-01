@@ -1,0 +1,189 @@
+using System;
+using System.Collections.Generic;
+
+namespace HelloWorld
+{
+    // Define an enum for the type of planet
+    public enum TypeOfPlanet
+    {
+        GasGiant,
+        IcePlanet,
+        OceanPlanet,
+        DwarfPlanet
+    }
+
+    // Make a PlanetStore where user can buy planet for now
+    public class HelloWorld
+    {
+        public static void Main(string[] args)
+        {
+            Console.WriteLine("Try programiz.pro");
+
+            // Create some customers
+            Customer per = new Customer("Killer", 123);
+            Customer per1 = new Customer("Ripper", 124);
+            Customer per2 = new Customer("Holoman", 125);
+
+            // Create some planets
+            Jupiter planet = new Jupiter("Jupiter", 999999, true, 999, 9000);
+            Jupiter planet1 = new Jupiter("Saturn", 99988, true, 90, 908);
+            Jupiter planet2 = new Jupiter("Neptune", 99977, true, 99, 908);
+
+            // Create a PlanetStore
+            PlanetStore store = new PlanetStore(1, 2); // level, spots
+            store.AddPlanetInStore(planet, per);
+            store.AddPlanetInStore(planet1, per1);
+            store.AddPlanetInStore(planet2, per2);
+
+            // Display available planets in the store
+            store.DisplayAvailablePlanetInStore();
+            Console.WriteLine(planet.GetTYPEofplanet());
+        }
+    }
+
+    public class Customer
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+
+        public Customer(string name, int age)
+        {
+            Name = name;
+            Age = age;
+        }
+
+        public void BuyPlanet(Planet planet)
+        {
+            planet.BuyPlanet();
+        }
+
+        public void ReturnPlanet(Planet planet)
+        {
+            planet.ReturnPlanet();
+        }
+    }
+
+    public abstract class Planet
+    {
+        public string Name { get; set; }
+        public double Price { get; set; }
+        public bool IsAvailable { get; set; }
+        public int Age { get; set; }
+        public int Size { get; set; }
+        public TypeOfPlanet TypeOfPlanet { get; set; }
+
+        public Planet(string name, double price, bool isAvailable, int age, int size, TypeOfPlanet typeOfPlanet)
+        {
+            Name = name;
+            Price = price;
+            IsAvailable = isAvailable;
+            Age = age;
+            Size = size;
+            TypeOfPlanet = typeOfPlanet;
+        }
+
+        public virtual string GetDetails()
+        {
+            return $"Name: {Name}\tPrice (dollars): {Price}\tAge (Billion): {Age}\tSize (kilometer): {Size}";
+        }
+
+        public TypeOfPlanet GetTYPEofplanet()
+        {
+            return TypeOfPlanet;
+        }
+
+        public void BuyPlanet()
+        {
+            IsAvailable = false;
+        }
+
+        public void ReturnPlanet()
+        {
+            IsAvailable = true;
+        }
+    }
+
+    public class Jupiter : Planet
+    {
+        public Jupiter(string name, double price, bool isAvailable, int age, int size)
+            : base(name, price, isAvailable, age, size, TypeOfPlanet.GasGiant)
+        {
+
+        }
+
+        public override string GetDetails()
+        {
+            return base.GetDetails();
+        }
+    }
+
+    public class singleSpot
+    {
+        public Planet planet;
+
+        public singleSpot()
+        {
+            planet = null;
+        }
+    }
+
+    public class Level
+    {
+        public List<singleSpot> spot;
+
+        public Level(int spots)
+        {
+            spot = new List<singleSpot>(spots);
+            for (int i = 0; i < spots; i++)
+            {
+                spot.Add(new singleSpot());
+            }
+        }
+    }
+
+    public class PlanetStore
+    {
+        public List<Planet> ListOfPurchasedPlanets = new List<Planet>();
+        public List<Planet> ListOfPlanets = new List<Planet>();
+        public List<Level> levels = new List<Level>();
+
+        public PlanetStore(int level, int spots)
+        {
+            for (int i = 0; i < level; i++)
+            {
+                Level newLevel = new Level(spots);
+                levels.Add(newLevel);
+            }
+        }
+
+        public void AddPlanetInStore(Planet planet, Customer customer)
+        {
+            foreach (Level level in levels)
+            {
+                foreach (singleSpot spot in level.spot)
+                {
+                    if (spot.planet == null)
+                    {
+                        spot.planet = planet;
+                        return;
+                    }
+                }
+            }
+            Console.WriteLine("Can't add more, store is full");
+        }
+
+        public void DisplayAvailablePlanetInStore()
+        {
+            foreach (Level level in levels)
+            {
+                foreach (singleSpot spot in level.spot)
+                {
+                    if (spot.planet != null)
+                    {
+                        Console.WriteLine($"The Planet Available:\n\t{spot.planet.GetDetails()}");
+                    }
+                }
+            }
+        }
+    }
+}
